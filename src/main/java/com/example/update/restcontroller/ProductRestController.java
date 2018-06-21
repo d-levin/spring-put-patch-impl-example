@@ -47,6 +47,12 @@ public class ProductRestController {
             .collect(Collectors.toList());
   }
 
+  @GetMapping("/{productId}")
+  public ProductReadDto getProductById(@PathVariable final Long productId) {
+    log.debug("Returning product with ID [{}]", productId);
+    return this.productModelMapper.convertToProductReadDto(this.findProductById(productId));
+  }
+
   @PostMapping
   public ProductReadDto createProduct(@RequestBody final ProductCreateDto productCreateDto) {
     log.debug("POST {}", productCreateDto);
