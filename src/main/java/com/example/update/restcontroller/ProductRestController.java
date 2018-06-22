@@ -5,7 +5,7 @@ import com.example.update.dto.ProductReadDto;
 import com.example.update.dto.ProductUpdateDto;
 import com.example.update.dto.ProductUpdatePartialDto;
 import com.example.update.entity.Product;
-import com.example.update.mapper.ProductModelMapper;
+import com.example.update.mapper.ProductMapper;
 import com.example.update.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,34 +30,34 @@ public class ProductRestController {
 
   private final ProductRepository productRepository;
 
-  private final ProductModelMapper productModelMapper;
+  private final ProductMapper productMapper;
 
   @Autowired
   public ProductRestController(final ProductRepository productRepository,
-                               final ProductModelMapper productModelMapper) {
+                               final ProductMapper productMapper) {
     this.productRepository = productRepository;
-    this.productModelMapper = productModelMapper;
+    this.productMapper = productMapper;
   }
 
   @GetMapping
   public List<ProductReadDto> getProducts() {
     log.debug("Returning all products");
     return this.productRepository.findAll().stream()
-            .map(this.productModelMapper::convertToProductReadDto)
+            .map(this.productMapper::convertToProductReadDto)
             .collect(Collectors.toList());
   }
 
   @GetMapping("/{productId}")
   public ProductReadDto getProductById(@PathVariable final Long productId) {
     log.debug("Returning product with ID [{}]", productId);
-    return this.productModelMapper.convertToProductReadDto(this.findProductById(productId));
+    return this.productMapper.convertToProductReadDto(this.findProductById(productId));
   }
 
   @PostMapping
   public ProductReadDto createProduct(@RequestBody final ProductCreateDto productCreateDto) {
     log.debug("POST {}", productCreateDto);
-    final Product product = this.productModelMapper.convertToProduct(productCreateDto);
-    return this.productModelMapper.convertToProductReadDto(this.productRepository.save(product));
+    final Product product = this.productMapper.convertToProduct(productCreateDto);
+    return this.productMapper.convertToProductReadDto(this.productRepository.save(product));
   }
 
   @PatchMapping("/{productId}")
@@ -65,8 +65,8 @@ public class ProductRestController {
                                              @RequestBody final ProductUpdatePartialDto productUpdatePartialDto) {
     log.debug("PATCH product [{}]", productId);
     final Product product = this.findProductById(productId);
-    this.productModelMapper.mergeIntoProduct(product, productUpdatePartialDto);
-    return this.productModelMapper.convertToProductReadDto(this.productRepository.save(product));
+    this.productMapper.mergeIntoProduct(product, productUpdatePartialDto);
+    return this.productMapper.convertToProductReadDto(this.productRepository.save(product));
   }
 
   @PutMapping("/{productId}")
@@ -74,8 +74,8 @@ public class ProductRestController {
                                       @RequestBody final ProductUpdateDto productUpdateDto) {
     log.debug("PUT product [{}]", productId);
     final Product product = this.findProductById(productId);
-    this.productModelMapper.mergeIntoProduct(product, productUpdateDto);
-    return this.productModelMapper.convertToProductReadDto(this.productRepository.save(product));
+    this.productMapper.mergeIntoProduct(product, productUpdateDto);
+    return this.productMapper.convertToProductReadDto(this.productRepository.save(product));
   }
 
   @DeleteMapping("/{productId}")

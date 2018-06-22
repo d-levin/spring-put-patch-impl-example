@@ -9,11 +9,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductModelMapperImpl implements ProductModelMapper {
+public class ProductMapperImpl implements ProductMapper {
 
   private final ModelMapper modelMapper;
 
-  public ProductModelMapperImpl() {
+  public ProductMapperImpl() {
     this.modelMapper = new ModelMapper();
   }
 

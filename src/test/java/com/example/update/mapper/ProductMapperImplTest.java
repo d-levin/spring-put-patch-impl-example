@@ -11,13 +11,13 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class ProductModelMapperImplTest {
+public class ProductMapperImplTest {
 
-  private ProductModelMapperImpl productModelMapperImpl;
+  private ProductMapperImpl productMapperImpl;
 
   @Before
   public void setUp() {
-    this.productModelMapperImpl = new ProductModelMapperImpl();
+    this.productMapperImpl = new ProductMapperImpl();
   }
 
   @Test
@@ -26,7 +26,7 @@ public class ProductModelMapperImplTest {
     productCreateDto.setName("name");
     productCreateDto.setDescription("description");
 
-    final Product product = this.productModelMapperImpl.convertToProduct(productCreateDto);
+    final Product product = this.productMapperImpl.convertToProduct(productCreateDto);
 
     assertEquals(product.getName(), "name");
     assertEquals(product.getDescription(), "description");
@@ -39,7 +39,7 @@ public class ProductModelMapperImplTest {
     product.setName("name");
     product.setDescription("description");
 
-    final ProductReadDto productReadDto = this.productModelMapperImpl.convertToProductReadDto(product);
+    final ProductReadDto productReadDto = this.productMapperImpl.convertToProductReadDto(product);
 
     assertEquals(productReadDto.getId(), (Long) 1L);
     assertEquals(productReadDto.getName(), "name");
@@ -56,7 +56,7 @@ public class ProductModelMapperImplTest {
     productUpdateDto.setName(null);
     productUpdateDto.setDescription("updatedDescription");
 
-    this.productModelMapperImpl.mergeIntoProduct(product, productUpdateDto);
+    this.productMapperImpl.mergeIntoProduct(product, productUpdateDto);
 
     assertNull(product.getName());
     assertEquals(product.getDescription(), "updatedDescription");
@@ -71,7 +71,7 @@ public class ProductModelMapperImplTest {
     final ProductUpdatePartialDto productUpdatePartialDto = new ProductUpdatePartialDto();
     productUpdatePartialDto.setName("updatedName");
 
-    this.productModelMapperImpl.mergeIntoProduct(product, productUpdatePartialDto);
+    this.productMapperImpl.mergeIntoProduct(product, productUpdatePartialDto);
 
     assertEquals(product.getName(), "updatedName");
     assertEquals(product.getDescription(), "description");

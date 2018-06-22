@@ -6,7 +6,7 @@ import com.example.update.dto.ProductUpdateDto;
 import com.example.update.dto.ProductUpdatePartialDto;
 import com.example.update.entity.Product;
 
-public interface ProductModelMapper {
+public interface ProductMapper {
 
   Product convertToProduct(ProductCreateDto productCreateDto);
 
